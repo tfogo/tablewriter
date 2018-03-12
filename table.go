@@ -321,7 +321,9 @@ func (t *Table) ClearFooter() {
 
 // Print line based on row width
 func (t *Table) printLine(nl bool) {
-	fmt.Fprint(t.out, t.pCenter)
+	if t.borders.Left {
+    fmt.Fprint(t.out, t.pCenter)
+  }
 	for i := 0; i < len(t.cs); i++ {
 		v := t.cs[i]
 		fmt.Fprintf(t.out, "%s%s%s%s",
@@ -337,7 +339,9 @@ func (t *Table) printLine(nl bool) {
 
 // Print line based on row width with our without cell separator
 func (t *Table) printLineOptionalCellSeparators(nl bool, displayCellSeparator []bool) {
-	fmt.Fprint(t.out, t.pCenter)
+	if t.birders.Left {
+    fmt.Fprint(t.out, t.pCenter)
+  }
 	for i := 0; i < len(t.cs); i++ {
 		v := t.cs[i]
 		if i > len(displayCellSeparator) || displayCellSeparator[i] {
