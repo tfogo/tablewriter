@@ -327,15 +327,11 @@ func (t *Table) printLine(nl bool) {
 	for i := 0; i < len(t.cs); i++ {
 		v := t.cs[i]
 
-    if t.borders.Left {
       fmt.Fprint(t.out, t.pRow)
-    }
 
 		fmt.Fprint(t.out, strings.Repeat(string(t.pRow), v))
 
-    if t.borders.Left {
       fmt.Fprint(t.out, t.pRow)
-    }
 
     if i < len(t.cs) - 1 {
      fmt.Fprint(t.out, t.pCenter)
@@ -356,15 +352,11 @@ func (t *Table) printLineOptionalCellSeparators(nl bool, displayCellSeparator []
 		v := t.cs[i]
 		if i > len(displayCellSeparator) || displayCellSeparator[i] {
 			// Display the cell separator
-			if t.borders.Left {
         fmt.Fprint(t.out, t.pRow)
-      }
 
 		  fmt.Fprint(t.out, strings.Repeat(string(t.pRow), v))
 
-      if t.borders.Left {
         fmt.Fprint(t.out, t.pRow)
-      }
 
       if i < len(t.cs) - 1 {
         fmt.Fprintf(t.out, t.pCenter)
@@ -420,7 +412,7 @@ func (t *Table) printHeading() {
 	for x := 0; x < max; x++ {
 		// Check if border is set
 		// Replace with space if not set
-		fmt.Fprint(t.out, ConditionString(t.borders.Left, t.pColumn, SPACE))
+		fmt.Fprint(t.out, ConditionString(t.borders.Left, t.pColumn, ""))
 
 		for y := 0; y <= end; y++ {
 			v := t.cs[y]
@@ -431,7 +423,7 @@ func (t *Table) printHeading() {
 			if t.autoFmt {
 				h = Title(h)
 			}
-			pad := ConditionString((y == end && !t.borders.Left), SPACE, t.pColumn)
+			pad := ConditionString((y == end && !t.borders.Left), "", t.pColumn)
 
 			if is_esc_seq {
 				fmt.Fprintf(t.out, " %s %s",
@@ -649,7 +641,7 @@ func (t *Table) printRow(columns [][]string, rowIdx int) {
 		for y := 0; y < total; y++ {
 
 			// Check if border is set
-			fmt.Fprint(t.out, ConditionString((!t.borders.Left && y == 0), SPACE, t.pColumn))
+			fmt.Fprint(t.out, ConditionString((!t.borders.Left && y == 0), "", t.pColumn))
 
 			fmt.Fprintf(t.out, SPACE)
 			str := columns[y][x]
@@ -687,7 +679,7 @@ func (t *Table) printRow(columns [][]string, rowIdx int) {
 		}
 		// Check if border is set
 		// Replace with space if not set
-		fmt.Fprint(t.out, ConditionString(t.borders.Left, t.pColumn, SPACE))
+		fmt.Fprint(t.out, ConditionString(t.borders.Left, t.pColumn, ""))
 		fmt.Fprint(t.out, t.newLine)
 	}
 
