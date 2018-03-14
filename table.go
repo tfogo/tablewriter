@@ -326,11 +326,21 @@ func (t *Table) printLine(nl bool) {
   }
 	for i := 0; i < len(t.cs); i++ {
 		v := t.cs[i]
-		fmt.Fprintf(t.out, "%s%s%s%s",
-			t.pRow,
-			strings.Repeat(string(t.pRow), v),
-			t.pRow,
-			t.pCenter)
+
+    if t.borders.Left {
+      fmt.Fprint(t.out, t.pRow)
+    }
+
+		fmt.Fprint(t.out, strings.Repeat(string(t.pRow), v))
+
+    if t.borders.Left {
+      fmt.Fprint(t.out, t.pRow)
+    }
+
+    if i < len(t.cs) - 1 {
+     fmt.Fprint(t.out, t.pCenter)
+    }
+
 	}
 	if nl {
 		fmt.Fprint(t.out, t.newLine)
@@ -346,11 +356,19 @@ func (t *Table) printLineOptionalCellSeparators(nl bool, displayCellSeparator []
 		v := t.cs[i]
 		if i > len(displayCellSeparator) || displayCellSeparator[i] {
 			// Display the cell separator
-			fmt.Fprintf(t.out, "%s%s%s%s",
-				t.pRow,
-				strings.Repeat(string(t.pRow), v),
-				t.pRow,
-				t.pCenter)
+			if t.borders.Left {
+        fmt.Fprint(t.out, t.pRow)
+      }
+
+		  fmt.Fprint(t.out, strings.Repeat(string(t.pRow), v))
+
+      if t.borders.Left {
+        fmt.Fprint(t.out, t.pRow)
+      }
+
+      if i < len(t.cs) - 1 {
+        fmt.Fprintf(t.out, t.pCenter)
+      }
 		} else {
 			// Don't display the cell separator for this cell
 			fmt.Fprintf(t.out, "%s%s",
