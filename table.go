@@ -339,7 +339,7 @@ func (t *Table) printLine(nl bool) {
 
 // Print line based on row width with our without cell separator
 func (t *Table) printLineOptionalCellSeparators(nl bool, displayCellSeparator []bool) {
-	if t.birders.Left {
+	if t.borders.Left {
     fmt.Fprint(t.out, t.pCenter)
   }
 	for i := 0; i < len(t.cs); i++ {
